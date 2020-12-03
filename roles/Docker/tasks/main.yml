@@ -1,0 +1,34 @@
+---
+- name: Install pre-requisite software
+  dnf:
+    name: yum-utils
+    state: latest
+
+- name: Add Docker repo
+  shell: |
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Install Docker
+  shell: |
+    dnf -y install docker-ce docker-ce-cli containerd.io  --nobest
+  ignore_errors: yes
+
+- name: Copy DNF config
+  copy:
+    src: dnf.conf
+    dest: /etc/dnf/dnf.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Start and enable Docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Add the user to the docker groups
+  user:
+    name: "{{ user_added_to_docker_group }}"
+    group: docker
+    append: yes
