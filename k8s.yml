@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: True
+  become: True
+  roles:
+    - role: common
+      vars:
+        host_name: k8s-master
+        fqdn_hostname: k8s-master.anet.internal
+        selinux_state: disabled
+        root_pw: Passw@ord123!
+
+    - role: NTP
+      vars:
+        ntp_network_access: 192.168.4.0/24
+
+    - role: Docker
+      vars:
+        user_added_to_docker_group: ansible
+
+    - role: Kubernetes-Master-Control-Plane
+      vars:
+        k8s_admin_user: ansible
+        k8s_init_output_file: /root/k8s-init

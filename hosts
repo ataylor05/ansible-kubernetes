@@ -1,0 +1,14 @@
+[control-plane-master]
+192.168.4.10
+
+[control-plane-secondary]
+192.168.4.11
+192.168.4.12
+
+[worker-linux]
+192.168.4.13
+192.168.4.14
+
+[worker-windows]
+192.168.4.15
+192.168.4.16
