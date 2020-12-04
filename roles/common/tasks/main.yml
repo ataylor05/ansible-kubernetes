@@ -42,7 +42,6 @@
       - unzip
       - yum-utils
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "8"
 
@@ -59,7 +58,6 @@
       - unzip
       - yum-utils
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "7"
 

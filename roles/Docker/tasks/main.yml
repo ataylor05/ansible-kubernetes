@@ -4,7 +4,6 @@
     src: oracle-linux-ol7.repo
     dest: /etc/yum.repos.d/oracle-linux-ol7.repo
   when:
-  - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution'] == "OracleLinux"
   - ansible_facts['distribution_major_version'] == "7"
 
@@ -13,7 +12,6 @@
     src: uek-ol7.repo
     dest: /etc/yum.repos.d/uek-ol7.repo
   when:
-  - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution'] == "OracleLinux"
   - ansible_facts['distribution_major_version'] == "7"
 
@@ -22,7 +20,6 @@
     dnf -y install docker-ce docker-ce-cli containerd.io  --nobest
   ignore_errors: yes
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "8"
 
@@ -31,7 +28,6 @@
     name: docker-engine
     state: latest
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "7"
 
@@ -43,7 +39,6 @@
     group: root
     mode: '0644'
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "8"
 

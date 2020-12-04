@@ -29,7 +29,6 @@
     name: kubeadm
     state: latest
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "8"
 
@@ -38,7 +37,6 @@
     name: kubeadm
     state: latest
   when:
-    - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
     - ansible_facts['distribution_major_version'] == "7"
 
@@ -62,3 +60,8 @@
   shell: |
     export KUBECONFIG=/etc/kubernetes/admin.conf
     kubectl apply -f {{  network_overlay }}
+
+- name: Download kubeconfig
+  fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/kubeconfig
