@@ -40,6 +40,26 @@
       - setroubleshoot
       - zip
       - unzip
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Install packages
+  yum:
+    name:
+      - git
+      - mlocate
+      - vim
+      - wget
+      - curl
+      - setroubleshoot
+      - zip
+      - unzip
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
 
 - name: Configure SELinux
   selinux:
