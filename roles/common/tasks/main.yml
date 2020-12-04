@@ -15,6 +15,19 @@
   dnf:
     name: "*"
     state: latest
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Patch OS
+  yum:
+    name: "*"
+    state: latest
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
 
 - name: Install packages
   dnf:
