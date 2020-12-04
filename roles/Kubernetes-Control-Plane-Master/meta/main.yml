@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: Kubernetes-Master-Control-Plane
+  role_name: Kubernetes-Control-Plane-Master
   author: Allan Taylor
-  description: A playbook to deploy the master Kuberentes control plane.
+  description: A playbook to deploy the first Kuberentes control plane server.
   company: ANET
   license: GPLv3
-  min_ansible_version: 1.2
+  min_ansible_version: 2.4

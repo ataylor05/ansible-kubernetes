@@ -1,0 +1,43 @@
+- name: Allow BGP
+  firewalld:
+    port: 179/tcp
+    permanent: yes
+    state: enabled
+    
+- name: Allow K8S API server
+  firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+
+- name: Allow ETCD
+  firewalld:
+    port: 2379-2380/tcp
+    permanent: yes
+    state: enabled
+
+- name: Allow Kubelet API
+  firewalld:
+    port: 10250/tcp
+    permanent: yes
+    state: enabled
+
+- name: Allow kube-scheduler
+  firewalld:
+    port: 10251/tcp
+    permanent: yes
+    state: enabled
+
+- name: Allow kube-controller-manager
+  firewalld:
+    port: 10252/tcp
+    permanent: yes
+    state: enabled
+    
+- name: Allow DNS
+  firewalld:
+    service: dns
+    permanent: yes
+    state: enabled
+
+

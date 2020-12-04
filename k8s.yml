@@ -20,21 +20,16 @@
 
 
 
-# - hosts: control-plane-secondary
-#   gather_facts: True
-#   become: True
-#   roles:
-#     - role: common
-#       vars:
-#         selinux_state: disabled
+- hosts: control-plane-secondary
+  gather_facts: True
+  become: True
+  roles:
+    - role: common
+      vars:
+        selinux_state: disabled
 
-#     - role: Docker
-#       vars:
-#         user_added_to_docker_group: ansible
+    - role: Docker
+      vars:
+        user_added_to_docker_group: ansible
 
-#     - role: Kubernetes-Control-Plane-Master
-#       vars:
-#         k8s_admin_user: ansible
-#         k8s_init_output_file: /root/k8s-init
-#         pod_network: 10.244.0.0/16
-#         network_overlay: https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+    - role: Kubernetes-Control-Plane-Secondary

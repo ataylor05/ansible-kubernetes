@@ -45,30 +45,3 @@
     name: kubelet
     enabled: yes
     state: started
-
-- name: Init a cluster
-  shell: |
-    kubeadm init --pod-network-cidr {{ pod_network }} > {{ k8s_init_output_file }}
-    mkdir -p /home/{{  k8s_admin_user }}/.kube
-    cp -i /etc/kubernetes/admin.conf /home/{{  k8s_admin_user }}/.kube/config
-    chown {{  k8s_admin_user }}:{{  k8s_admin_user }} /home/{{  k8s_admin_user }}/.kube/config
-    sleep 120
-  args:
-    creates: /etc/kubernetes/admin.conf
-    
-- name: Configure network CNI
-  shell: |
-    export KUBECONFIG=/etc/kubernetes/admin.conf
-    kubectl apply -f {{  network_overlay }}
-
-- name: Download kubeconfig
-  fetch:
-    src: /etc/kubernetes/admin.conf
-    dest: ~/kubeconfig
-    flat: yes
-
-- name: Download k8s init output
-  fetch:
-    src: "{{ k8s_init_output_file }}"
-    dest: ~/k82-init
-    flat: yes
