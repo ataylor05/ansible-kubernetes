@@ -1,7 +1,12 @@
 ---
-- name: Set root password
-  shell: echo {{  root_pw }} | passwd --stdin root
+- name: Show facts available on the system
+  ansible.builtin.debug:
+    var: ansible_factsansible_facts['os_family']
 
+- name: Show facts available on the system
+  ansible.builtin.debug:
+    var: ansible_factsansible_facts['distribution_major_version']
+    
 - name: Patch OS
   dnf:
     name: "*"
@@ -19,18 +24,8 @@
       - zip
       - unzip
 
-- name: Set hostname
-  hostname:
-    name: "{{ fqdn_hostname }}"
-
-- name: Configure /etc/hosts
-  shell: |
-    echo "127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4" > /etc/hosts
-    echo "::1         localhost localhost.localdomain localhost6 localhost6.localdomain6" >> /etc/hosts
-    echo "$(hostname -I)   {{ fqdn_hostname }}  {{ hostname }}" >> /etc/hosts
-    systemctl reload NetworkManager
-
 - name: Configure SELinux
   selinux:
     policy: targeted
     state: "{{ selinux_state }}"
+

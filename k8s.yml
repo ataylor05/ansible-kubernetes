@@ -1,10 +1,12 @@
 ---
-
-
 - hosts: control-plane-master
   gather_facts: True
   become: True
   roles:
+    - role: common
+      vars:
+        selinux_state: disabled
+
     - role: Docker
       vars:
         user_added_to_docker_group: ansible

@@ -1,4 +1,1 @@
-hostname: host
-fqdn_hostname: host.anet.internal
 selinux_state: enforcing
-root_pw: Passw@ord123!
