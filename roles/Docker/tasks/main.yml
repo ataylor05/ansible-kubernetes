@@ -1,7 +1,7 @@
 ---
 - name: Enable OL7 Docker repo
   copy:
-    src: oracle-linux-ol7.repo
+    src: files/oracle-linux-ol7.repo
     dest: /etc/yum.repos.d/oracle-linux-ol7.repo
     remote_src: yes
   when:
@@ -11,7 +11,7 @@
 
 - name: Enable OL7 Docker repo
   copy:
-    src: uek-ol7.repo
+    src: files/uek-ol7.repo
     dest: /etc/yum.repos.d/uek-ol7.repo
     remote_src: yes
   when:
