@@ -45,3 +45,6 @@
     name: kubelet
     enabled: yes
     state: started
+
+- name: Join cluster
+  shell: kubeadm join --discovery-token {{ token }} --discovery-token-ca-cert-hash {{ discovery_token_ca_cert_hash }} --control-plane {{ cluster_api }}

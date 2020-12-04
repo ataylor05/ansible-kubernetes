@@ -70,5 +70,5 @@
 - name: Download k8s init output
   fetch:
     src: "{{ k8s_init_output_file }}"
-    dest: ~/k82-init
+    dest: ~/k8s-init
     flat: yes

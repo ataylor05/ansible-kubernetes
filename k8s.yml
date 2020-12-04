@@ -33,3 +33,7 @@
         user_added_to_docker_group: ansible
 
     - role: Kubernetes-Control-Plane-Secondary
+      vars:
+          cluster_api: 192.168.4.10:6443
+          token: ggsc0m.0yu42palxa7xg0k5
+          discovery_token_ca_cert_hash: sha256:d15265ed549d910c89a60871ed0e0f408cb922c0649e1de8c6be8217d4c5a533
