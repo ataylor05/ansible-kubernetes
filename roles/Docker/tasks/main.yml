@@ -14,7 +14,7 @@
 
 - name: Install Docker
   shell: |
-    yum -y install docker-ce docker-ce-cli containerd.io  --nobest
+    yum -y install docker-ce docker-ce-cli containerd.io
   ignore_errors: yes
   when:
     - ansible_facts['os_family'] == "RedHat"
@@ -28,6 +28,10 @@
     owner: root
     group: root
     mode: '0644'
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
 
 - name: Start and enable Docker
   systemd:
