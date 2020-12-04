@@ -1,8 +1,17 @@
 ---
-- name: Enable OL7 Docker repo
+- name: Enable OL7 Addon repo
   copy:
     src: oracle-linux-ol7.repo
     dest: /etc/yum.repos.d/oracle-linux-ol7.repo
+  when:
+  - ansible_facts['os_family'] == "RedHat"
+  - ansible_facts['distribution'] == "OracleLinux"
+  - ansible_facts['distribution_major_version'] == "7"
+
+- name: Enable UEK repo
+  copy:
+    src: uek-ol7.repo
+    dest: /etc/yum.repos.d/uek-ol7.repo
   when:
   - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution'] == "OracleLinux"
@@ -18,9 +27,9 @@
     - ansible_facts['distribution_major_version'] == "8"
 
 - name: Install Docker
-  shell: |
-    yum -y install docker-engine
-  ignore_errors: yes
+  yum:
+    name: docker-engine
+    state: latest
   when:
     - ansible_facts['os_family'] == "RedHat"
     - ansible_facts['distribution'] == "OracleLinux"
