@@ -1,7 +1,23 @@
 ---
-- name: Add Docker repo
-  shell: |
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+- name: Enable OL7 Docker repo
+  copy:
+    src: oracle-linux-ol7.repo
+    dest: /etc/yum.repos.d/oracle-linux-ol7.repo
+    remote_src: yes
+    when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
+
+- name: Enable OL7 Docker repo
+  copy:
+    src: uek-ol7.repo
+    dest: /etc/yum.repos.d/uek-ol7.repo
+    remote_src: yes
+    when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
 
 - name: Install Docker
   shell: |
@@ -14,7 +30,7 @@
 
 - name: Install Docker
   shell: |
-    yum -y install docker-ce docker-ce-cli containerd.io
+    yum -y install docker-engine
   ignore_errors: yes
   when:
     - ansible_facts['os_family'] == "RedHat"
