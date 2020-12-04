@@ -1,45 +1,12 @@
 ---
-- name: Allow BGP
-  firewalld:
-    port: 179/tcp
-    permanent: yes
-    state: enabled
-    
-- name: Allow K8S API server
-  firewalld:
-    port: 6443/tcp
-    permanent: yes
-    state: enabled
+- include_tasks: centos8.yml
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
 
-- name: Allow ETCD
-  firewalld:
-    port: 2379-2380/tcp
-    permanent: yes
-    state: enabled
 
-- name: Allow Kubelet API
-  firewalld:
-    port: 10250/tcp
-    permanent: yes
-    state: enabled
-
-- name: Allow kube-scheduler
-  firewalld:
-    port: 10251/tcp
-    permanent: yes
-    state: enabled
-
-- name: Allow kube-controller-manager
-  firewalld:
-    port: 10252/tcp
-    permanent: yes
-    state: enabled
-    
-- name: Allow DNS
-  firewalld:
-    service: dns
-    permanent: yes
-    state: enabled
+- name: Include task list in play
+  include_tasks: firewalld.yml
 
 - name: Configure IP forwarding
   shell: |
@@ -54,43 +21,3 @@
   shell: |
     swapoff -a
     sed -i '/swap/d' /etc/fstab
-
-- name: Copy Kubernetes repo file
-  copy:
-    src: kubernetes.repo
-    dest: /etc/yum.repos.d/kubernetes.repo
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Install kubeadm
-  dnf:
-    name: kubeadm
-    state: latest
-
-- name: Copy DNF config
-  copy:
-    src: dnf.conf
-    dest: /etc/dnf/dnf.conf
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Start and enable kubelet
-  systemd:
-    name: kubelet
-    enabled: yes
-    state: started
-
-- name: Init a cluster
-  shell: |
-    kubeadm init --pod-network-cidr 10.244.0.0/16 > {{ k8s_init_output_file }}
-    mkdir -p /home/{{  k8s_admin_user }}/.kube
-    cp -i /etc/kubernetes/admin.conf /home/{{  k8s_admin_user }}/.kube/config
-    chown {{  k8s_admin_user }}:{{  k8s_admin_user }} /home/{{  k8s_admin_user }}/.kube/config
-    
-- name: Configure network CNI
-  shell: |
-    export KUBECONFIG=/etc/kubernetes/admin.conf
-    sleep 180
-    kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml

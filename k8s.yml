@@ -1,15 +1,16 @@
 ---
+- name: Show facts available on the system
+  ansible.builtin.debug:
+    var: ansible_factsansible_facts['os_family']
+
+- name: Show facts available on the system
+  ansible.builtin.debug:
+    var: ansible_factsansible_facts['distribution_major_version']
+
 - hosts: control-plane-master
   gather_facts: True
   become: True
   roles:
-    - role: common
-      vars:
-        host_name: k8s-master-1
-        fqdn_hostname: k8s-master-1.anet.internal
-        selinux_state: disabled
-        root_pw: Passw@ord123!
-
     - role: Docker
       vars:
         user_added_to_docker_group: ansible
