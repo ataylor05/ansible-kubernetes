@@ -1,9 +1,4 @@
 ---
-- name: Install pre-requisite software
-  dnf:
-    name: yum-utils
-    state: latest
-
 - name: Add Docker repo
   shell: |
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -12,6 +7,19 @@
   shell: |
     dnf -y install docker-ce docker-ce-cli containerd.io  --nobest
   ignore_errors: yes
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Install Docker
+  shell: |
+    yum -y install docker-ce docker-ce-cli containerd.io  --nobest
+  ignore_errors: yes
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
 
 - name: Copy DNF config
   copy:
