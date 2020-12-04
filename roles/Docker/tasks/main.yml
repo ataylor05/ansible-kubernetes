@@ -1,19 +1,8 @@
 ---
 - name: Enable OL7 Docker repo
   copy:
-    src: files/oracle-linux-ol7.repo
+    src: oracle-linux-ol7.repo
     dest: /etc/yum.repos.d/oracle-linux-ol7.repo
-    remote_src: yes
-  when:
-  - ansible_facts['os_family'] == "RedHat"
-  - ansible_facts['distribution'] == "OracleLinux"
-  - ansible_facts['distribution_major_version'] == "7"
-
-- name: Enable OL7 Docker repo
-  copy:
-    src: files/uek-ol7.repo
-    dest: /etc/yum.repos.d/uek-ol7.repo
-    remote_src: yes
   when:
   - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution'] == "OracleLinux"
