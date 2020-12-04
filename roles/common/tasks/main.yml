@@ -1,9 +1,13 @@
 ---
-- name: Show facts available on the system
+- name: Show OS family
   ansible.builtin.debug:
     var: ansible_facts['os_family']
 
-- name: Show facts available on the system
+- name: Show OS distrobution
+  ansible.builtin.debug:
+    var: ansible_facts['distribution']
+
+- name: Show distribution version
   ansible.builtin.debug:
     var: ansible_facts['distribution_major_version']
 
