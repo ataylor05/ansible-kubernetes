@@ -1,0 +1,51 @@
+---
+- name: Allow 6443
+  firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+    
+- name: Install Docker
+  shell: |
+    firewall-cmd --add-rich-rule='rule protocol value="vrrp" accept' --permanent
+    firewall-cmd --reload
+
+- name: Install packages
+  yum:
+    name:
+      - haproxy
+      - keepalived
+  when:
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
+
+- name: Install packages
+  dnf:
+    name:
+      - haproxy
+      - keepalived
+  when:
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Copy haproxy.cfg
+  template:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: Start and enable haproxy
+  systemd:
+    name: haproxy
+    enabled: yes
+    state: restarted
+
+- name: Copy keepalived.conf
+  template:
+    src: templates/keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+
+- name: Start and enable keepalived
+  systemd:
+    name: keepalived
+    enabled: yes
+    state: restarted

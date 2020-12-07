@@ -1,0 +1,17 @@
+vrrp_script chk_haproxy{
+        script "pidof haproxy"
+        interval {{ keepalive_interval }}
+}
+
+vrrp_instance VI_1 {
+    state {{ keepalive_state }}
+    interface {{ ethernet_interface }}
+    virtual_router_id 51
+    priority {{ keepalive_priority }}
+    virtual_ipaddress {
+        {{ keepalive_vip }}
+    }
+    track_script {
+        chk_haproxy
+    }
+}

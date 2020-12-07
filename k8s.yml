@@ -1,4 +1,51 @@
 ---
+- hosts: ha-proxy-master
+  gather_facts: True
+  become: True
+  roles:
+    - role: common
+      vars:
+        selinux_state: disabled
+
+    - role: HA-Proxy
+      vars:
+        haproxy_max_connections: 500
+        k8s_control_plane_1_hostname: k8s-master-1.anet.internal
+        k8s_control_plane_1_ip: 192.168.4.10
+        k8s_control_plane_2_hostname: k8s-master-2.anet.internal
+        k8s_control_plane_2_ip: 192.168.4.11
+        k8s_control_plane_3_hostname: k8s-master-3.anet.internal
+        k8s_control_plane_3_ip: 192.168.4.12
+        ethernet_interface: ens33
+        keepalive_state: MASTER
+        keepalive_priority: 101
+        keepalive_vip: 192.168.4.13
+        keepalive_interval: 1
+
+
+- hosts: ha-proxy-backup
+  gather_facts: True
+  become: True
+  roles:
+    - role: common
+      vars:
+        selinux_state: disabled
+
+    - role: HA-Proxy
+      vars:
+        haproxy_max_connections: 500
+        k8s_control_plane_1_hostname: k8s-master-1.anet.internal
+        k8s_control_plane_1_ip: 192.168.4.10
+        k8s_control_plane_2_hostname: k8s-master-2.anet.internal
+        k8s_control_plane_2_ip: 192.168.4.11
+        k8s_control_plane_3_hostname: k8s-master-3.anet.internal
+        k8s_control_plane_3_ip: 192.168.4.12
+        ethernet_interface: ens33
+        keepalive_state: BACKUP
+        keepalive_priority: 100
+        keepalive_vip: 192.168.4.13
+        keepalive_interval: 1
+
 - hosts: control-plane-master
   gather_facts: True
   become: True

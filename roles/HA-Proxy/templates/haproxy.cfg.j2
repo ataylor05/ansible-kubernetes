@@ -1,0 +1,22 @@
+global
+        daemon
+        maxconn {{ haproxy_max_connections }}
+defaults
+        mode tcp
+        timeout connect         10s
+        timeout client          30s
+        timeout server          30s
+        timeout http-keep-alive 10s
+        timeout check           10s
+        retries 3
+
+
+frontend k8s-api-front
+        bind *:6443
+        default_backend k8s-api-back
+
+backend k8s-api-back
+        balance roundrobin
+        server {{ k8s_control_plane_1_hostname }} {{ k8s_control_plane_1_ip }}:6443 check inter 500 fall 3 rise 2
+        server {{ k8s_control_plane_2_hostname }} {{ k8s_control_plane_2_ip }}:6443 check inter 500 fall 3 rise 2
+        server {{ k8s_control_plane_3_hostname }} {{ k8s_control_plane_3_ip }}:6443 check inter 500 fall 3 rise 2
