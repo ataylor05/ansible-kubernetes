@@ -5,7 +5,7 @@
     permanent: yes
     state: enabled
     
-- name: Install Docker
+- name: Allow vrrp keepalived
   shell: |
     firewall-cmd --add-rich-rule='rule protocol value="vrrp" accept' --permanent
     firewall-cmd --reload

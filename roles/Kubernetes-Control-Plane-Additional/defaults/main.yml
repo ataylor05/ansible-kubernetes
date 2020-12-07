@@ -1,0 +1,4 @@
+cluster_api: k8s-master-vip.anet.internal:6443
+token: 456y7y.f06433zsjfid55j7
+discovery_token_ca_cert_hash: sha256:d15265ed549d910c89a60871ed0e0f408cb922c0649e1de8c6be8217d4c5a533
+certificate_key: 641fee9b2132c0662b4b4b16183f8f16173431f41ca8d70bbe924d365ad77d9d
