@@ -47,4 +47,4 @@
     state: started
 
 - name: Join cluster
-  shell: kubeadm join {{ cluster_api }} --discovery-token {{ token }} --discovery-token-ca-cert-hash {{ discovery_token_ca_cert_hash }} --control-plane --certificate-key {{ certificate_key }}
+  shell:  kubeadm join {{ cluster_api }} --token {{ token }} --discovery-token-ca-cert-hash {{ discovery_token_ca_cert_hash }} --control-plane --certificate-key {{ certificate_key }}
