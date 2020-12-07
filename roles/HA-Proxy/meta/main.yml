@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: common
+  role_name: HA-Proxy
   author: Allan Taylor
-  description: Common OS packages
+  description: Configures a pair of HA Proxy load balancers for highly available K8S control plane.
   company: ANET
   license: GPLv3
   min_ansible_version: 2.4

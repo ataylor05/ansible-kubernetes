@@ -48,7 +48,7 @@
 
 - name: Init a cluster
   shell: |
-    kubeadm init --pod-network-cidr {{ pod_network }} > {{ k8s_init_output_file }}
+    kubeadm init --control-plane-endpoint "{{ control_plane_vip_dns }}:6443" --upload-certs --pod-network-cidr {{ pod_network }} > {{ k8s_init_output_file }}
     mkdir -p /home/{{  k8s_admin_user }}/.kube
     cp -i /etc/kubernetes/admin.conf /home/{{  k8s_admin_user }}/.kube/config
     chown {{  k8s_admin_user }}:{{  k8s_admin_user }} /home/{{  k8s_admin_user }}/.kube/config

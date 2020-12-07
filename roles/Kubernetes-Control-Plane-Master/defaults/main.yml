@@ -1,4 +1,0 @@
-k8s_admin_user: ansible
-k8s_init_output_file: /root/k8s-init
-pod_network: 10.244.0.0/16
-network_overlay: https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml

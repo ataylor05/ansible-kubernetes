@@ -46,7 +46,8 @@
         keepalive_vip: 192.168.4.13
         keepalive_interval: 1
 
-- hosts: control-plane-master
+
+- hosts: control-plane
   gather_facts: True
   become: True
   roles:
@@ -58,13 +59,13 @@
       vars:
         user_added_to_docker_group: ansible
 
-    - role: Kubernetes-Control-Plane-Master
+    - role: Kubernetes-Control-Plane
       vars:
         k8s_admin_user: ansible
         k8s_init_output_file: /root/k8s-init
         pod_network: 10.244.0.0/16
         network_overlay: https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
-
+        control_plane_vip_dns: k8s-master-vip.anet.internal
 
 
 - hosts: control-plane-secondary
