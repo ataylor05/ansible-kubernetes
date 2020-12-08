@@ -21,42 +21,25 @@
     group: root
     mode: '0644'
 
-- name: Install kubeadm
+- name: Install Kubernetes packages
   dnf:
-    name: kubeadm
-    state: latest
+    name:
+      - kubeadm
+      - kubelet
+      - kubectl
+  when:
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "8"
 
-- name: Copy DNF config
-  copy:
-    src: dnf.conf
-    dest: /etc/dnf/dnf.conf
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Allow BGP
-  firewalld:
-    port: 179/tcp
-    permanent: yes
-    state: enabled
-
-- name: Allow Kubelet API
-  firewalld:
-    port: 10250/tcp
-    permanent: yes
-    state: enabled
-
-- name: Allow NodePort service
-  firewalld:
-    port: 30000-32767/tcp
-    permanent: yes
-    state: enabled
-    
-- name: Allow DNS
-  firewalld:
-    service: dns
-    permanent: yes
-    state: enabled
+- name: Install Kubernetes packages
+  yum:
+    name:
+      - kubeadm
+      - kubelet
+      - kubectl
+  when:
+    - ansible_facts['distribution'] == "OracleLinux"
+    - ansible_facts['distribution_major_version'] == "7"
 
 - name: Start and enable kubelet
   systemd:
@@ -66,10 +49,10 @@
 
 - name: Join worker to cluster
   shell: |
-    kubeadm join {{ master_server }} \
+    kubeadm join {{ api_endpoint }} \
        --token {{ cluster_token }}  \
        --discovery-token-ca-cert-hash {{ discovery_token_ca_cert_hash }}
        
-- name: Reboot the server
-  shell: |
-    reboot
+# - name: Reboot the server
+#   shell: |
+#     reboot
